@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Blog</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+        <div class="container mt-3">
+            <h1>
+                <%= blog.title %>
+            </h1>
+            <div class="text-center m-3">
+                <img src="<%= blog.coverImage %>" width="500px" alt="">
+            </div>
+            <pre class="" style="overflow-x: auto;white-space: pre-wrap;word-wrap: break-word;">
+                <%= blog.body %>
+            </pre>
+            <div class="container mt-3 mb-3">
+                <img class="rounded-circle" src="<%=  blog.createdBy.profileImageURL%>" width="50px" alt="">
+                <%= blog.createdBy.fullName %>
+            </div>
+
+            <div class="container mt-3">
+                <h1>Comments (<%= comments.length %>)
+                </h1>
+                <% if (locals.user) { %>
+                    <form action="/blog/comment/<%= blog._id %>" method="post">
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name='content' placeholder="Enter your comment">
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                    <% } %>
+            </div>
+            <% comments.forEach(comment=> { %>
+                <div class=" border mt-3 d-flex align-items-center">
+                    <img src="<%= comment.createdBy.profileImageURL %>" class="rounded-circle" width="50px" alt="">
+                    <%= comment.createdBy.fullName %>
+                        <pre class="d-flex">
+                    <%= comment.content %>
+                </p>
+                </div>
+                <% }) %>
+
+        </div>
+        <%- include('./partials/scripts') %>
+</body>
+
+</html>
